@@ -1,0 +1,20 @@
+mysql -u root -p (root)
+
+use table_name;
+
+describe table_name;
+
+select * from table_name;
+
+delete from table_name;
+
+# For the custom 404
+export APP_ENV=prod
+export APP_DEBUG=0
+php bin/console cache:clear --env=prod
+symfony server:start
+
+export APP_ENV=dev
+export APP_DEBUG=1
+php bin/console cache:clear --env=dev
+symfony server:start

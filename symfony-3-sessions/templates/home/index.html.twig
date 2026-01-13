@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; min-height:60vh; text-align:center; gap:1.5rem;">
+        
+        {% if app.user %}
+                <h2 style="font-size:2rem; color:#333;">
+                    Welcome <span class="rainbow-username">{{ app.user.username }}</span> 👋
+                </h2>
+
+            <form method="post" action="{{ path('app_logout') }}">
+                <button type="submit" style="
+                    background:#f7ae02; 
+                    color:#fff; 
+                    border:none; 
+                    padding:0.75rem 2rem; 
+                    font-size:1rem; 
+                    border-radius:0.5rem; 
+                    cursor:pointer;
+                    transition: 0.2s;
+                " onmouseover="this.style.background='#e89b00'" onmouseout="this.style.background='#f7ae02'">
+                    Logout
+                </button>
+            </form>
+        {% else %}
+            <h2 style="font-size:2rem; color:#333;">Welcome to my site!</h2>
+
+            <div style="display:flex; gap:1rem; flex-wrap:wrap; justify-content:center;">
+                <a href="{{ path('app_registration') }}" style="
+                    display:inline-block;
+                    background:#007bff; 
+                    color:#fff; 
+                    padding:0.75rem 2rem; 
+                    border-radius:0.5rem;
+                    text-decoration:none;
+                    font-size:1rem;
+                    transition:0.2s;
+                " onmouseover="this.style.background='#0056b3'" onmouseout="this.style.background='#007bff'">
+                    Register
+                </a>
+
+                <a href="{{ path('app_login') }}" style="
+                    display:inline-block;
+                    background:#28a745; 
+                    color:#fff; 
+                    padding:0.75rem 2rem; 
+                    border-radius:0.5rem;
+                    text-decoration:none;
+                    font-size:1rem;
+                    transition:0.2s;
+                " onmouseover="this.style.background='#1e7e34'" onmouseout="this.style.background='#28a745'">
+                    Login
+                </a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

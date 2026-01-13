@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page Not Found{% endblock %}
+
+{% block content %}
+    <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; min-height:60vh; text-align:center; gap:1.5rem;">
+        <h1 style="font-size:4rem; color:#f44336;">404</h1>
+        <h2 style="font-size:2rem; color:#333;">Oops! Page not found.</h2>
+        <p style="color:#666;">That so sad, the page you are looking for does not exist (stupid).</p>
+        <a href="{{ path('app_home') }}" style="
+            display:inline-block;
+            background:#007bff;
+            color:#fff;
+            padding:0.75rem 2rem;
+            border-radius:0.5rem;
+            text-decoration:none;
+            transition:0.2s;
+        " onmouseover="this.style.background='#0056b3'" onmouseout="this.style.background='#007bff'">
+            Back to Home
+        </a>
+    </div>
+{% endblock %}

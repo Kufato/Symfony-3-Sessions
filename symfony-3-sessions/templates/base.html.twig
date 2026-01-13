@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        {% block stylesheets %}
+            <style>
+                html, body {
+                    height: 100%;
+                    margin: 0;
+                }
+                body {
+                    display: flex;
+                    flex-direction: column;
+                    min-height: 100vh;
+                    font-family: Arial, sans-serif;
+                }
+
+                header {
+                    background: #f7ae02;
+                    color: #7d5800;
+                    text-align: center;
+                    padding: 1rem 1rem;
+                    font-size: 1.5rem;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                }
+
+                main {
+                    flex: 1;
+                    padding: 2rem;
+                }
+
+                footer {
+                    background: #f7ae02;
+                    color: #7d5800;
+                    text-align: center;
+                    padding: 2rem 1rem;
+                    margin-top: auto;
+                    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+                }
+
+                .rainbow-username {
+                    display: inline-block;
+                    font-weight: bold;
+                    font-size: 2rem;
+                    background: linear-gradient(
+                        90deg,
+                        red, orange, yellow, green, blue, indigo, violet, red, orange, yellow, green, blue, indigo, violet
+                    );
+                    background-size: 2000% 100%;
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    animation: rainbow 8s linear infinite;
+                }
+
+                @keyframes rainbow {
+                    0%   { background-position: 0% 0%; }
+                    100% { background-position: 100% 0%; }
+                }
+            </style>
+        {% endblock %}
+        {% block javascripts %}{% endblock %}
+    </head>
+    <body>
+        <header>
+            <h1>Symfony - 3 - Sessions</h1>
+        </header>
+
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer>
+            <p>&copy; {{ "now"|date("Y") }} - All rights reserved (we know the lyrics)</p>
+        </footer>
+    </body>
+</html>
