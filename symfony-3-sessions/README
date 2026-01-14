@@ -8,6 +8,8 @@ select * from table_name;
 
 delete from table_name;
 
+##################################################
+
 # For the custom 404
 export APP_ENV=prod
 export APP_DEBUG=0
@@ -18,3 +20,21 @@ export APP_ENV=dev
 export APP_DEBUG=1
 php bin/console cache:clear --env=dev
 symfony server:start
+
+##################################################
+
+php bin/console make:migration
+
+php bin/console doctrine:migrations:migrate
+
+php bin/console doctrine:schema:validate
+
+##################################################
+
+INSERT INTO user (username, email, password, roles)
+VALUES (
+    'admin',
+    'admin@gmail.com',
+    '$2y$13$KvMI.I66DRU2mF/aOyBrl.l6BckXNjRv1.7JHoWqtwQM.Un8WeKE.',
+    '["ROLE_ADMIN"]'
+);

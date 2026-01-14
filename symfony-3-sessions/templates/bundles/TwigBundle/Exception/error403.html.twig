@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Access Denied{% endblock %}
+
+{% block content %}
+    <div style="
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        min-height:60vh;
+        text-align:center;
+        gap:1.5rem;
+    ">
+
+        <h1 style="font-size:3rem;">🚫 403</h1>
+
+        <p style="font-size:1.2rem; max-width:500px;">
+            Oh no, you do not have permission to access this page (negative intelligence).
+        </p>
+
+        {% if app.user %}
+            <p>
+                Logged in as
+                <strong>{{ app.user.username }}</strong>
+            </p>
+        {% endif %}
+
+        <a href="{{ path('app_home') }}" style="
+            background:#007bff;
+            color:#fff;
+            padding:0.75rem 2rem;
+            border-radius:0.75rem;
+            text-decoration:none;
+            font-size:1rem;
+        ">
+            Back to Home
+        </a>
+
+    </div>
+{% endblock %}

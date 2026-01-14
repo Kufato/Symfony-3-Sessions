@@ -3,57 +3,77 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-    <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; min-height:60vh; text-align:center; gap:1.5rem;">
-        
+    <div style="
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        min-height:60vh;
+        gap:1.5rem;
+        text-align:center;
+    ">
+
         {% if app.user %}
-                <h2 style="font-size:2rem; color:#333;">
-                    Welcome <span class="rainbow-username">{{ app.user.username }}</span> 👋
-                </h2>
+            <h2>
+                Welcome
+                <span class="rainbow-text">{{ app.user.username }}</span>
+                👋
+            </h2>
+
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('e02_admin') }}" style="
+                    background:#6f42c1;
+                    color:#fff;
+                    padding:0.75rem 2rem;
+                    border-radius:0.75rem;
+                    text-decoration:none;
+                    font-size:1.1rem;
+                    transition:0.2s;
+                " onmouseover="this.style.background='#59339d'"
+                onmouseout="this.style.background='#6f42c1'">
+                    Admin Panel
+                </a>
+            {% endif %}
 
             <form method="post" action="{{ path('app_logout') }}">
                 <button type="submit" style="
-                    background:#f7ae02; 
-                    color:#fff; 
-                    border:none; 
-                    padding:0.75rem 2rem; 
-                    font-size:1rem; 
-                    border-radius:0.5rem; 
+                    background:#dc3545;
+                    color:#fff;
+                    border:none;
+                    padding:0.6rem 1.8rem;
+                    border-radius:0.6rem;
+                    font-size:1rem;
                     cursor:pointer;
-                    transition: 0.2s;
-                " onmouseover="this.style.background='#e89b00'" onmouseout="this.style.background='#f7ae02'">
+                ">
                     Logout
                 </button>
             </form>
-        {% else %}
-            <h2 style="font-size:2rem; color:#333;">Welcome to my site!</h2>
 
-            <div style="display:flex; gap:1rem; flex-wrap:wrap; justify-content:center;">
+        {% else %}
+            <h2>Welcome on the home page</h2>
+
+            <div style="display:flex; gap:1rem;">
                 <a href="{{ path('app_registration') }}" style="
-                    display:inline-block;
-                    background:#007bff; 
-                    color:#fff; 
-                    padding:0.75rem 2rem; 
-                    border-radius:0.5rem;
+                    background:#28a745;
+                    color:#fff;
+                    padding:0.6rem 1.6rem;
+                    border-radius:0.6rem;
                     text-decoration:none;
-                    font-size:1rem;
-                    transition:0.2s;
-                " onmouseover="this.style.background='#0056b3'" onmouseout="this.style.background='#007bff'">
+                ">
                     Register
                 </a>
 
                 <a href="{{ path('app_login') }}" style="
-                    display:inline-block;
-                    background:#28a745; 
-                    color:#fff; 
-                    padding:0.75rem 2rem; 
-                    border-radius:0.5rem;
+                    background:#007bff;
+                    color:#fff;
+                    padding:0.6rem 1.6rem;
+                    border-radius:0.6rem;
                     text-decoration:none;
-                    font-size:1rem;
-                    transition:0.2s;
-                " onmouseover="this.style.background='#1e7e34'" onmouseout="this.style.background='#28a745'">
+                ">
                     Login
                 </a>
             </div>
         {% endif %}
+
     </div>
 {% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Panel{% endblock %}
+
+{% block content %}
+    <div style="
+        max-width:800px;
+        margin:0 auto;
+        display:flex;
+        flex-direction:column;
+        gap:1.5rem;
+    ">
+
+        <h2 style="text-align:center;">👑 Admin Panel 👑</h2>
+
+        {% for message in app.flashes('error') %}
+            <div style="color:red; text-align:center;">{{ message }}</div>
+        {% endfor %}
+
+        {% for message in app.flashes('success') %}
+            <div style="color:green; text-align:center;">{{ message }}</div>
+        {% endfor %}
+
+        <table style="
+            width:100%;
+            border-collapse:collapse;
+            background:#fff;
+            border-radius:0.5rem;
+            overflow:hidden;
+        ">
+            <thead style="background:#f7ae02;">
+                <tr>
+                    <th style="padding:0.75rem;">Username</th>
+                    <th>Email</th>
+                    <th>Roles</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr style="text-align:center; border-bottom:1px solid #eee;">
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.roles[0] }}</td>
+                    <td>
+                        {% if user != app.user %}
+                            <form method="post"
+                                action="{{ path('e02_admin_delete', {id: user.id}) }}"
+                                onsubmit="return confirm('Are you sure?');">
+                                <button style="
+                                    background:#dc3545;
+                                    color:white;
+                                    border:none;
+                                    padding:0.4rem 0.8rem;
+                                    border-radius:0.4rem;
+                                    cursor:pointer;
+                                ">
+                                    Delete
+                                </button>
+                            </form>
+                        {% else %}
+                            <span style="color:#999;">You</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div style="text-align:center;">
+            <a href="{{ path('app_home') }}" style="
+                background:#007bff;
+                color:white;
+                padding:0.5rem 1.5rem;
+                border-radius:0.5rem;
+                text-decoration:none;
+            ">
+                Home
+            </a>
+        </div>
+
+    </div>
+{% endblock %}

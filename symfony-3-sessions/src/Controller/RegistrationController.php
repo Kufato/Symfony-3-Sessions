@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+#[Route('/e01')]
 final class RegistrationController extends AbstractController
 {
     #[Route('/registration', name: 'app_registration')]

@@ -7,10 +7,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use App\E03Bundle\Entity\Post;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    // Properties //
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -27,57 +31,78 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private ?string $password = null;
 
-
     #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
+
+    #[ORM\Column(type: 'json')]
+    private array $roles = [];
+
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Post::class, orphanRemoval: true)]
+    private Collection $posts;
+
+    // Getter & setter //
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
-
+    
     public function getUsername(): ?string
     {
         return $this->username;
     }
-
+    
     public function setUsername(string $username): static
     {
         $this->username = $username;
         return $this;
     }
-
+    
     public function getPassword(): ?string
     {
         return $this->password;
     }
-
+    
     public function setPassword(string $password): static
     {
         $this->password = $password;
         return $this;
     }
-
+    
     public function getEmail(): ?string
     {
         return $this->email;
     }
-
+    
     public function setEmail(string $email): static
     {
         $this->email = $email;
         return $this;
     }
-
-    /* ===================== */
-    /* Symfony Security      */
-    /* ===================== */
-
+    
     public function getRoles(): array
     {
-        return ['ROLE_USER'];
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+        return array_unique($roles);
     }
-
+    
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+    
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+    
+    // Symfony Security //
     public function eraseCredentials(): void
     {
     }
