@@ -11,6 +11,8 @@
         min-height:60vh;
         gap:1.5rem;
         text-align:center;
+        max-width:800px;
+        margin:0 auto;
     ">
 
         {% if app.user %}
@@ -35,7 +37,7 @@
                 </a>
             {% endif %}
 
-            <form method="post" action="{{ path('app_logout') }}">
+            <form method="post" action="{{ path('e01_logout') }}">
                 <button type="submit" style="
                     background:#dc3545;
                     color:#fff;
@@ -49,11 +51,50 @@
                 </button>
             </form>
 
+            <a href="{{ path('e03_new') }}" style="
+                background:#17a2b8;
+                color:#fff;
+                padding:0.6rem 1.8rem;
+                border-radius:0.6rem;
+                text-decoration:none;
+                font-size:1rem;
+                transition:0.2s;
+            ">
+                Create new post
+            </a>
+
+            <h3 style="margin-top:2rem; font-size:1.5rem;">Recent Posts</h3>
+            {% if posts is not empty %}
+                <ul style="list-style:none; padding:0; width:100%;">
+                    {% for post in posts %}
+                        <li style="
+                            background:#f8f9fa;
+                            margin-bottom:1rem;
+                            padding:1rem;
+                            border-radius:0.5rem;
+                            text-align:left;
+                        ">
+                            <a href="{{ path('e03_show', {'id': post.id}) }}" style="
+                                font-size:1.2rem;
+                                font-weight:bold;
+                                color:#007bff;
+                                text-decoration:none;
+                            ">{{ post.title }}</a>
+                            <p style="margin:0.25rem 0; color:#555;">
+                                by {{ post.author.username }} on {{ post.createdAt|date('d/m/Y H:i') }}
+                            </p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No posts yet.</p>
+            {% endif %}
+
         {% else %}
             <h2>Welcome on the home page</h2>
 
             <div style="display:flex; gap:1rem;">
-                <a href="{{ path('app_registration') }}" style="
+                <a href="{{ path('e01_registration') }}" style="
                     background:#28a745;
                     color:#fff;
                     padding:0.6rem 1.6rem;
@@ -63,7 +104,7 @@
                     Register
                 </a>
 
-                <a href="{{ path('app_login') }}" style="
+                <a href="{{ path('e01_login') }}" style="
                     background:#007bff;
                     color:#fff;
                     padding:0.6rem 1.6rem;

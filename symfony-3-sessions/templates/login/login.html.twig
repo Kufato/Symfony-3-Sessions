@@ -14,7 +14,7 @@
         {% if app.user %}
             <div>
                 You are logged in as <strong>{{ app.user.username }}</strong>,
-                <a href="{{ path('app_logout') }}">Logout</a>
+                <a href="{{ path('e01_logout') }}">Logout</a>
             </div>
         {% endif %}
 
@@ -64,7 +64,7 @@
 
         <div style="margin-top:1rem;">
             Don't have an account ?
-            <a href="{{ path('app_registration') }}" style="
+            <a href="{{ path('e01_registration') }}" style="
                 text-decoration:none;
                 color:#007bff;
                 transition:0.2s;

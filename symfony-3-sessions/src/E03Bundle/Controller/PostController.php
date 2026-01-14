@@ -14,14 +14,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/e03')]
 class PostController extends AbstractController
 {
-    #[Route('/', name: 'e03_home')]
-    public function index(PostRepository $postRepository): Response
-    {
-        return $this->render('e03/index.html.twig', [
-            'posts' => $postRepository->findLatest(),
-        ]);
-    }
-
     #[Route('/post/{id}', name: 'e03_show')]
     #[IsGranted('ROLE_USER')]
     public function show(Post $post): Response
@@ -47,7 +39,7 @@ class PostController extends AbstractController
             $em->persist($post);
             $em->flush();
 
-            return $this->redirectToRoute('e03_home');
+            return $this->redirectToRoute('e01_home');
         }
 
         return $this->render('e03/new.html.twig');
