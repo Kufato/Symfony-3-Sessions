@@ -64,6 +64,7 @@
             </a>
 
             <h3 style="margin-top:2rem; font-size:1.5rem;">Recent Posts</h3>
+
             {% if posts is not empty %}
                 <ul style="list-style:none; padding:0; width:100%;">
                     {% for post in posts %}
@@ -79,7 +80,9 @@
                                 font-weight:bold;
                                 color:#007bff;
                                 text-decoration:none;
-                            ">{{ post.title }}</a>
+                            ">
+                                {{ post.title }}
+                            </a>
                             <p style="margin:0.25rem 0; color:#555;">
                                 by {{ post.author.username }} on {{ post.createdAt|date('d/m/Y H:i') }}
                             </p>
@@ -91,7 +94,25 @@
             {% endif %}
 
         {% else %}
-            <h2>Welcome on the home page</h2>
+            <h2>
+                Welcome
+                <span class="rainbow-text">
+                    {{ anonymous.name }}
+                </span>
+                👋
+            </h2>
+
+            <p style="font-size:0.9rem; color:#555;">
+                Last request was {{ anonymous.seconds_since_last_request }} seconds ago
+            </p>
+
+            <p style="font-size:1rem; font-weight:bold;">
+                Session expires in
+                <span id="session-timer" style="color:#dc3545;">
+                    {{ anonymous.seconds_remaining }}
+                </span>
+                seconds
+            </p>
 
             <div style="display:flex; gap:1rem;">
                 <a href="{{ path('e01_registration') }}" style="
@@ -117,4 +138,23 @@
         {% endif %}
 
     </div>
+
+    {% if not app.user %}
+        <script>
+            let remaining = {{ anonymous.seconds_remaining }};
+            const timerEl = document.getElementById('session-timer');
+
+            if (timerEl) {
+                const interval = setInterval(() => {
+                    remaining--;
+                    timerEl.textContent = remaining;
+
+                    if (remaining <= 0) {
+                        clearInterval(interval);
+                        location.reload();
+                    }
+                }, 1000);
+            }
+        </script>
+    {% endif %}
 {% endblock %}

@@ -1,0 +1,4 @@
+services:
+    App\E04Bundle\Service\AnonymousSessionService:
+        arguments:
+            - '@request_stack'
