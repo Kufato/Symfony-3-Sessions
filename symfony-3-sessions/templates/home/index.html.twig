@@ -18,7 +18,9 @@
         {% if app.user %}
             <h2>
                 Welcome
-                <span class="rainbow-text">{{ app.user.username }}</span>
+                <span class="rainbow-text">
+                    {{ app.user.username }} ({{ app.user.reputation }})
+                </span>
                 👋
             </h2>
 
@@ -30,9 +32,7 @@
                     border-radius:0.75rem;
                     text-decoration:none;
                     font-size:1.1rem;
-                    transition:0.2s;
-                " onmouseover="this.style.background='#59339d'"
-                onmouseout="this.style.background='#6f42c1'">
+                ">
                     Admin Panel
                 </a>
             {% endif %}
@@ -44,7 +44,6 @@
                     border:none;
                     padding:0.6rem 1.8rem;
                     border-radius:0.6rem;
-                    font-size:1rem;
                     cursor:pointer;
                 ">
                     Logout
@@ -57,13 +56,11 @@
                 padding:0.6rem 1.8rem;
                 border-radius:0.6rem;
                 text-decoration:none;
-                font-size:1rem;
-                transition:0.2s;
             ">
                 Create new post
             </a>
 
-            <h3 style="margin-top:2rem; font-size:1.5rem;">Recent Posts</h3>
+            <h3 style="margin-top:2rem;">Recent Posts</h3>
 
             {% if posts is not empty %}
                 <ul style="list-style:none; padding:0; width:100%;">
@@ -75,7 +72,7 @@
                             border-radius:0.5rem;
                             text-align:left;
                         ">
-                            <a href="{{ path('e03_show', {'id': post.id}) }}" style="
+                            <a href="{{ path('e03_show', { id: post.id }) }}" style="
                                 font-size:1.2rem;
                                 font-weight:bold;
                                 color:#007bff;
@@ -83,8 +80,16 @@
                             ">
                                 {{ post.title }}
                             </a>
+
                             <p style="margin:0.25rem 0; color:#555;">
-                                by {{ post.author.username }} on {{ post.createdAt|date('d/m/Y H:i') }}
+                                by {{ post.author.username }} ({{ post.author.reputation }})
+                                • {{ post.createdAt|date('d/m/Y H:i') }}
+                            </p>
+
+                            <p style="margin:0; font-size:0.9rem;">
+                                👍 {{ votes[post.id].likes }}
+                                &nbsp; | &nbsp;
+                                👎 {{ votes[post.id].dislikes }}
                             </p>
                         </li>
                     {% endfor %}
@@ -106,7 +111,7 @@
                 Last request was {{ anonymous.seconds_since_last_request }} seconds ago
             </p>
 
-            <p style="font-size:1rem; font-weight:bold;">
+            <p style="font-weight:bold;">
                 Session expires in
                 <span id="session-timer" style="color:#dc3545;">
                     {{ anonymous.seconds_remaining }}

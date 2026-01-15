@@ -29,6 +29,12 @@ doctrine:
                 type: attribute
                 dir: '%kernel.project_dir%/src/E03Bundle/Entity'
                 prefix: 'App\E03Bundle\Entity'
+            E05Bundle:
+                is_bundle: false
+                type: attribute
+                dir: '%kernel.project_dir%/src/E05Bundle/Entity'
+                prefix: 'App\E05Bundle\Entity'
+                alias: E05
         controller_resolver:
             auto_mapping: false
 

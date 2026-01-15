@@ -3,18 +3,39 @@
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
-    <div style="max-width:700px; margin:0 auto; display:flex; flex-direction:column; gap:1rem;">
+    <div style="
+        max-width:700px;
+        margin:0 auto;
+        display:flex;
+        flex-direction:column;
+        gap:1rem;
+    ">
 
         <h2>{{ post.title }}</h2>
 
         <small>
-            By {{ post.author.username }} • {{ post.createdAt|date('d/m/Y H:i') }}
+            By {{ post.author.username }} ({{ post.author.reputation }})
+            • {{ post.createdAt|date('d/m/Y H:i') }}
         </small>
 
-        <p style="margin-top:1rem;">
-            {{ post.content }}
+        <p>{{ post.content }}</p>
+
+        <div style="display:flex; gap:1rem;">
+            <a href="{{ path('e05_vote_like', { id: post.id }) }}"
+               style="color:green; font-weight:bold;">
+                👍 Like
+            </a>
+
+            <a href="{{ path('e05_vote_dislike', { id: post.id }) }}"
+               style="color:red; font-weight:bold;">
+                👎 Dislike
+            </a>
+        </div>
+
+        <p style="font-size:0.9rem;">
+            👍 {{ votes.likes }} | 👎 {{ votes.dislikes }}
         </p>
 
-        <a href="{{ path('e03_home') }}">← Back</a>
+        <a href="{{ path('app_home') }}">← Back</a>
     </div>
 {% endblock %}
