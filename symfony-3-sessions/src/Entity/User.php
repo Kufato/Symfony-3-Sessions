@@ -101,6 +101,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->posts;
     }
+
+    public function getReputation(): int
+    {
+        $score = 0;
+
+        foreach ($this->getPosts() as $post) {
+            foreach ($post->getVotes() as $vote) {
+                $score += $vote->isLike() ? 1 : -1;
+            }
+        }
+
+        return $score;
+    }
     
     // Symfony Security //
     public function eraseCredentials(): void

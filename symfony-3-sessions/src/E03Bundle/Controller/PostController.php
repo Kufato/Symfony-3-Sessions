@@ -3,7 +3,7 @@
 namespace App\E03Bundle\Controller;
 
 use App\E03Bundle\Entity\Post;
-use App\E03Bundle\Repository\PostRepository;
+use App\E07Bundle\Service\ReputationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,19 +16,18 @@ class PostController extends AbstractController
 {
     #[Route('/post/{id}', name: 'e03_show')]
     #[IsGranted('ROLE_USER')]
-    public function show(Post $post): Response
+    public function show(Post $post, ReputationService $reputationService): Response
     {
         return $this->render('e03/show.html.twig', [
             'post' => $post,
+            'reputationService' => $reputationService,
         ]);
     }
 
     #[Route('/new', name: 'e03_new')]
     #[IsGranted('ROLE_USER')]
-    public function new(
-        Request $request,
-        EntityManagerInterface $em
-    ): Response {
+    public function new(Request $request, EntityManagerInterface $em): Response
+    {
         $post = new Post();
 
         if ($request->isMethod('POST')) {

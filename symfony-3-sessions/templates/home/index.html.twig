@@ -65,6 +65,17 @@
             {% if posts is not empty %}
                 <ul style="list-style:none; padding:0; width:100%;">
                     {% for post in posts %}
+                        {% set likes = 0 %}
+                        {% set dislikes = 0 %}
+
+                        {% for vote in post.votes %}
+                            {% if vote.value == 1 %}
+                                {% set likes = likes + 1 %}
+                            {% elseif vote.value == -1 %}
+                                {% set dislikes = dislikes + 1 %}
+                            {% endif %}
+                        {% endfor %}
+
                         <li style="
                             background:#f8f9fa;
                             margin-bottom:1rem;
@@ -87,9 +98,9 @@
                             </p>
 
                             <p style="margin:0; font-size:0.9rem;">
-                                👍 {{ votes[post.id].likes }}
+                                👍 {{ likes }}
                                 &nbsp; | &nbsp;
-                                👎 {{ votes[post.id].dislikes }}
+                                👎 {{ dislikes }}
                             </p>
                         </li>
                     {% endfor %}

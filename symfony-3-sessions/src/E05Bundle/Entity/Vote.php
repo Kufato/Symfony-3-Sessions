@@ -4,16 +4,15 @@ namespace App\E05Bundle\Entity;
 
 use App\Entity\User;
 use App\E03Bundle\Entity\Post;
+use App\E05Bundle\Repository\VoteRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity]
-#[ORM\Table(
-    uniqueConstraints: [
-        new ORM\UniqueConstraint(columns: ['user_id', 'post_id'])
-    ]
-)]
+#[ORM\Entity(repositoryClass: VoteRepository::class)]
+#[ORM\Table(name: 'vote')]
+#[ORM\UniqueConstraint(columns: ['user_id', 'post_id'])]
 class Vote
 {
+    // Properties
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -23,12 +22,40 @@ class Vote
     #[ORM\JoinColumn(nullable: false)]
     private User $user;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: Post::class, inversedBy: 'votes')]
     #[ORM\JoinColumn(nullable: false)]
     private Post $post;
 
-    #[ORM\Column(type: 'smallint')]
-    private int $value; // +1 = like, -1 = dislike
+    #[ORM\Column]
+    private int $value; // 1 = like, -1 = dislike
+
+    // Getter & setter
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
+        return $this;
+    }
+
+    public function getPost(): Post
+    {
+        return $this->post;
+    }
+
+    public function setPost(Post $post): self
+    {
+        $this->post = $post;
+        return $this;
+    }
 
     public function getValue(): int
     {
@@ -41,15 +68,14 @@ class Vote
         return $this;
     }
 
-    public function setUser(User $user): self
+    // Other methods
+    public function isLike(): bool
     {
-        $this->user = $user;
-        return $this;
+        return $this->value === 1;
     }
 
-    public function setPost(Post $post): self
+    public function isDislike(): bool
     {
-        $this->post = $post;
-        return $this;
+        return $this->value === -1;
     }
 }

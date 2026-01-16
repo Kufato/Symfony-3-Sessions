@@ -5,11 +5,14 @@ namespace App\E03Bundle\Entity;
 use App\E03Bundle\Repository\PostRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\User;
+use App\E05Bundle\Entity\Vote;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
 {
-    // Properties //
+    // Properties
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -27,13 +30,24 @@ class Post
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'posts')]
     #[ORM\JoinColumn(nullable: false)]
     private User $author;
-    
-    // Getter & setter //
+
+    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Vote::class, orphanRemoval: true)]
+    private Collection $votes;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    private ?User $updatedBy = null;
+
+    // Constructor
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
+        $this->votes = new ArrayCollection();
     }
 
+    // Getters & setters
     public function getId(): ?int 
     {
         return $this->id;
@@ -43,11 +57,10 @@ class Post
     {
         return $this->title;
     }
-
+    
     public function setTitle(string $title): self
     {
-        $this->title = $title;
-        return $this;
+        $this->title = $title; return $this;
     }
 
     public function getContent(): string
@@ -57,8 +70,7 @@ class Post
 
     public function setContent(string $content): self
     {
-        $this->content = $content;
-        return $this;
+        $this->content = $content; return $this;
     }
 
     public function getCreatedAt(): \DateTimeImmutable
@@ -73,7 +85,32 @@ class Post
 
     public function setAuthor(User $author): self
     {
-        $this->author = $author;
+        $this->author = $author; return $this;
+    }
+
+    public function getVotes(): Collection
+    {
+        return $this->votes; }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    public function getUpdatedBy(): ?User
+    {
+        return $this->updatedBy;
+    }
+
+    public function setUpdatedBy(User $user): self
+    {
+        $this->updatedBy = $user;
         return $this;
     }
 }
