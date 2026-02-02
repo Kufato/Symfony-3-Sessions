@@ -31,13 +31,14 @@ class Post
     #[ORM\JoinColumn(nullable: false)]
     private User $author;
 
-    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Vote::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Vote::class, cascade: ['remove'], orphanRemoval: true)]
     private Collection $votes;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?User $updatedBy = null;
 
     // Constructor

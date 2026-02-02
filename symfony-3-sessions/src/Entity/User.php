@@ -8,6 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use App\E03Bundle\Entity\Post;
+use App\E05Bundle\Entity\Vote;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -40,10 +41,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Post::class, orphanRemoval: true)]
     private Collection $posts;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Vote::class, cascade: ['remove'], orphanRemoval: true)]
+    private Collection $votes;
+
     // Getter & setter //
     public function __construct()
     {
         $this->posts = new ArrayCollection();
+        $this->votes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -113,6 +118,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $score;
+    }
+
+    public function getVotes(): Collection
+    {
+        return $this->votes;
     }
     
     // Symfony Security //
